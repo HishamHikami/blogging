@@ -1,0 +1,9 @@
+.venv
+.env
+db.sqlite3
+__pycache__/
+media
+staticfiles
+*.pyc
+uploads/
+blogging.code-workspace
