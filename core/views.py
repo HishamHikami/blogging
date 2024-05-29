@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .models import Post, Contact, GetQuote, Category
 from taggit.models import Tag
+import logging
 
 # Create your views here.
 
@@ -20,8 +21,6 @@ def index(request):
 def blog_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     posts = Post.objects.filter(status="published")
-    categories = Category.objects.all()
-    tags = post.tags.all()
     
     category = None
     if post.category:
@@ -34,8 +33,6 @@ def blog_detail(request, slug):
         "post": post,
         "posts": posts,
         "category": category,
-        "categories": categories,
-        "tags": tags,
     }
     
     return render(request, 'core/blog-detail.html', context)
@@ -69,17 +66,34 @@ def tag_list(request, tag_slug=None):
 def category_list(request, category_slug=None):
     posts = Post.objects.filter(status="published").order_by("-date")
 
-    tag = None
+    category = None
     if category_slug:
-        category = get_object_or_404(Tag, slug=category_slug)
+        category = get_object_or_404(Category, slug=category_slug)
         posts = posts.filter(category__in=[category])
 
     context = {
         "posts": posts,
-        "tag": tag,
+        "category": category,
     }
 
     return render(request, 'core/category.html', context)
+
+
+logger = logging.getLogger(__name__)
+
+def search_view(request):
+    query = request.GET.get('q', '')
+    logger.debug(f"Query: {query}")
+    posts = Post.objects.filter(heading__icontains=query, body__icontains=query).order_by("-date")
+    post_count = posts.count()
+
+    context = {
+        "posts": posts,
+        "query": query,
+        "post_count": post_count,
+    }
+
+    return render(request, 'core/search.html', context)
 
 def ajax_contact_form(request):
     full_name = request.GET['full_name']

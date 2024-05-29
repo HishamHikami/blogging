@@ -10,7 +10,8 @@
             <div class="container">
                 <ol>
                     <li><a href="{% url 'core:index' %}">Home</a></li>
-                    <li>Blog</li>
+                    <li><a href="{% url 'core:blog' %}">Blog</a></li>
+                    <li>{{ tag.name }}</li>
                 </ol>
             </div>
         </nav>
@@ -78,6 +79,41 @@
                 </div>
             </div>
     </section><!-- /Blog Posts Section -->
+
+    <!-- Recent Posts Section -->
+    <section id="recent-posts" class="recent-posts section">
+        <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+              <h2>Latest Posts</h2>
+              <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+          </div><!-- End Section Title -->
+          <div class="container">
+              <div class="row gy-4">
+                  {% for p in latest %}
+                  <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                      <article>
+                          <div class="post-img">
+                              <img src="{{ p.cover.url }}" alt="" class="img-fluid">
+                          </div>
+                          <p class="post-category">{{ p.category }}</p>
+                          <h2 class="title">
+                              <a href="{% url 'core:blog-detail' p.slug %}">{{ p.heading }}</a>
+                          </h2>
+                          <div class="d-flex align-items-center">
+                              <img src="{{ p.author.image.url }}" alt="" class="img-fluid post-author-img flex-shrink-0">
+                              <div class="post-meta">
+                                  <p class="post-author">{{ p.author }}</p>
+                                  <p class="post-date">
+                                      <time datetime="2022-01-01">{{ p.updated }}</time>
+                                  </p>
+                              </div>
+                          </div>
+                      </article>
+                  </div><!-- End post list item -->
+                  {% endfor %}
+              </div><!-- End recent posts list -->
+          </div>
+      </section><!-- /Recent Posts Section -->
 
   </main>
 
