@@ -36,6 +36,9 @@ class Category(models.Model):
         self.slug = slugify(self.clean_heading())
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return f"/blog/category/{self.slug}/"
+
     class Meta:
         verbose_name_plural = "Categories"
 

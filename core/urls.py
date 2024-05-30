@@ -1,12 +1,13 @@
 from django.urls import path
 from .views import blog_detail, blog_list, tag_list, index, ajax_contact_form, ajax_get_quote, category_list, search_view
 from django.contrib.sitemaps.views import sitemap
-from .sitemap import BlogSitemap
+from .sitemap import BlogSitemap, CategorySitemap
 
 app_name = "core"
 
 sitemaps = {
-    'posts': BlogSitemap
+    'posts': BlogSitemap,
+    'categories': CategorySitemap,
 }
 
 urlpatterns = [
