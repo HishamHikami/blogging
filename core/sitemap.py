@@ -1,7 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from .models import Post, Category
-from taggit.models import Tag
+from .models import Post, Category, CustomTag
 
 class StaticViewSitemap(Sitemap):
     priority = 0.5
@@ -38,7 +37,7 @@ class TagSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        return Tag.objects.all()
+        return CustomTag.objects.all()
     
     def lastmod(self, obj):
         tagged_posts = Post.objects.filter(tags=obj)

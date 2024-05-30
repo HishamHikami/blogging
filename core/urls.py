@@ -1,20 +1,21 @@
 from django.urls import path
-from .views import blog_detail, blog_list, tag_list, index, ajax_contact_form, ajax_get_quote, category_list, search_view
+from .views import blog_detail, blog_list, index, ajax_contact_form, ajax_get_quote, category_list, search_view, TagDetailView
 from django.contrib.sitemaps.views import sitemap
-from .sitemap import BlogSitemap, CategorySitemap
+from .sitemap import BlogSitemap, CategorySitemap, TagSitemap
 
 app_name = "core"
 
 sitemaps = {
     'posts': BlogSitemap,
     'categories': CategorySitemap,
+    'tags': TagSitemap,
 }
 
 urlpatterns = [
     path("", index, name='index'),
     path("blog/", blog_list, name='blog'),
     path("blog/<slug>", blog_detail, name='blog-detail'),
-    path("blog/tag/<tag_slug>/", tag_list, name='tags'),
+    path("blog/tag/<slug:slug>/", TagDetailView.as_view(), name='tags'),
     path("blog/category/<category_slug>/", category_list, name='categories'),
     path("search/", search_view, name="search"),
     path(

@@ -1,10 +1,9 @@
-from .models import Category, Author, Post
-from taggit.models import Tag
+from .models import Category, Author, Post, CustomTag
 
 def default(request):
     categories = Category.objects.all()
     authors = Author.objects.all()
-    tags = Tag.objects.all()
+    tags = CustomTag.objects.all()
     latest_posts = Post.objects.filter(status="published").order_by("-date")
 
     return {

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from .models import Post, Contact, GetQuote, Category
-from taggit.models import Tag
+from .models import Post, Contact, GetQuote, Category, CustomTag
+from django.views.generic import DetailView
 import logging
 
 # Create your views here.
@@ -48,20 +48,16 @@ def blog_list(request):
 
     return render(request, 'core/blog-list.html', context)
 
-def tag_list(request, tag_slug=None):
-    posts = Post.objects.filter(status="published").order_by("-date")
+class TagDetailView(DetailView):
+    model = CustomTag
+    template_name = 'core/tag.html'
+    context_object_name = 'tag'
 
-    tag = None
-    if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        posts = posts.filter(tags__in=[tag])
-
-    context = {
-        "posts": posts,
-        "tag": tag,
-    }
-
-    return render(request, 'core/tag.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag = self.get_object()
+        context['posts'] = Post.objects.filter(tags=tag)
+        return context
 
 def category_list(request, category_slug=None):
     posts = Post.objects.filter(status="published").order_by("-date")

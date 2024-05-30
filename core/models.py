@@ -4,6 +4,7 @@ from userauths.models import User
 from django.utils.text import slugify
 from django.utils.html import mark_safe
 from taggit.managers import TaggableManager
+from taggit.models import TagBase, GenericTaggedItemBase
 from django.urls import reverse
 
 # Create your models here.
@@ -21,6 +22,13 @@ FEATURED = (
 
 def blog_images(instance, filename):
     return 'author_{0}/{1}'.format(instance.author.id, filename)
+
+class CustomTag(TagBase):
+    def get_absolute_url(self):
+        return f"/blog/tag/{self.slug}/"
+    
+class CustomTaggedItem(GenericTaggedItemBase):
+    tag = models.ForeignKey(CustomTag, on_delete=models.CASCADE, related_name="%(class)s_items")
 
 class Category(models.Model):
     title = models.CharField(max_length=60, null=True, blank=True)
@@ -71,7 +79,7 @@ class Post(models.Model):
     body = CKEditor5Field(config_name='extends', null=True, blank=True)
     excerpt = models.CharField(max_length=450, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(through=CustomTaggedItem)
     status = models.CharField(choices=STATUS, max_length=20, default="draft")
     featured = models.CharField(choices=FEATURED, max_length=20, default="no")
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
