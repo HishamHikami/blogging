@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', False))
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '64.23.231.113']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '64.23.231.113', 'auxnid.com', 'www.auxnid.com']
 
 SITE_ID = 1
 
