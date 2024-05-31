@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -18,8 +19,8 @@ def index(request):
 
     return render(request, 'core/index.html', context)
 
-def blog_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+def blog_detail(request, category_slug, slug):
+    post = get_object_or_404(Post, category__slug=category_slug, slug=slug)
     posts = Post.objects.filter(status="published")
     
     category = None
@@ -80,7 +81,14 @@ logger = logging.getLogger(__name__)
 def search_view(request):
     query = request.GET.get('q', '')
     logger.debug(f"Query: {query}")
-    posts = Post.objects.filter(heading__icontains=query, body__icontains=query).order_by("-date")
+    posts = Post.objects.filter(
+        Q(heading__icontains=query) |
+        Q(body__icontains=query) |
+        Q(author__name__icontains=query) |
+        Q(category__title__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct().order_by("-date")
+
     post_count = posts.count()
 
     context = {

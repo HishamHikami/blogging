@@ -97,7 +97,7 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('core:blog-detail', kwargs={'slug': self.slug})
+        return reverse('core:blog-detail', args=[self.category.slug, self.slug])
     
     class Meta:
         verbose_name_plural = "Posts"

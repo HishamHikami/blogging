@@ -134,7 +134,7 @@
               <div class="post-item">
                 <img src="{{ p.cover.url }}" alt="" class="flex-shrink-0">
                 <div>
-                  <h4><a href="{% url 'core:blog-detail' p.slug %}">{{ p.heading }}</a></h4>
+                  <h4><a href="{% url 'core:blog-detail' category_slug=p.category.slug slug=p.slug %}">{{ p.heading }}</a></h4>
                   <time datetime="2020-01-01">{{ p.date | date }}</time>
                 </div>
               </div><!-- End recent post item-->

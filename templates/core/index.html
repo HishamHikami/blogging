@@ -36,47 +36,13 @@
             </div><!-- /Tags Widget -->
         </div><!-- /row -->
     </div><!-- /container -->
-    <!-- Recent Posts Section -->
-    <section id="recent-posts" class="recent-posts section">
-      <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Recent Posts</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-        <div class="container">
-            <div class="row gy-4">
-                {% for p in posts %}
-                <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <article>
-                        <div class="post-img">
-                            <img src="{% static 'assets/img/blog/blog-1.jpg' %}" alt="" class="img-fluid">
-                        </div>
-                        <p class="post-category">Politics</p>
-                        <h2 class="title">
-                            <a href="blog-details.html">Dolorum optio tempore voluptas dignissimos</a>
-                        </h2>
-                        <div class="d-flex align-items-center">
-                            <img src="{% static 'assets/img/blog/blog-author.jpg' %}" alt="" class="img-fluid post-author-img flex-shrink-0">
-                            <div class="post-meta">
-                                <p class="post-author">Maria Doe</p>
-                                <p class="post-date">
-                                    <time datetime="2022-01-01">Jan 1, 2022</time>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div><!-- End post list item -->
-                {% endfor %}
-            </div><!-- End recent posts list -->
-        </div>
-    </section><!-- /Recent Posts Section -->
 
     <!-- Featured Posts Section -->
     <section id="recent-posts" class="recent-posts section">
         <!-- Section Title -->
           <div class="container section-title" data-aos="fade-up">
               <h2>Featured Posts</h2>
-              <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+              <p>Dive into our curated collection of featured posts, where we highlight the latest trends, expert insights, and must-know tips on beauty, health, and natural well-being.</p>
           </div><!-- End Section Title -->
           <div class="container">
               <div class="row gy-4">
@@ -84,18 +50,18 @@
                 <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <article>
                         <div class="post-img">
-                            <img src="{% static 'assets/img/blog/blog-1.jpg' %}" alt="" class="img-fluid">
+                            <img src="{{ f.cover.url }}" alt="" class="img-fluid">
                         </div>
-                        <p class="post-category">Politics</p>
+                        <p class="post-category">{{ f.category }}</p>
                         <h2 class="title">
-                            <a href="blog-details.html">Dolorum optio tempore voluptas dignissimos</a>
+                            <a href="{% url 'core:blog-detail' category_slug=f.category.slug slug=f.slug %}">{{ f.heading }}</a>
                         </h2>
                         <div class="d-flex align-items-center">
-                            <img src="{% static 'assets/img/blog/blog-author.jpg' %}" alt="" class="img-fluid post-author-img flex-shrink-0">
+                            <img src="{{ f.author.image.url }}" alt="" class="img-fluid post-author-img flex-shrink-0">
                             <div class="post-meta">
-                                <p class="post-author">Maria Doe</p>
+                                <p class="post-author">{{ f.author }}</p>
                                 <p class="post-date">
-                                    <time datetime="2022-01-01">Jan 1, 2022</time>
+                                    <time datetime="2022-01-01">{{ f.updated }}</time>
                                 </p>
                             </div>
                         </div>
@@ -105,6 +71,41 @@
               </div><!-- End featured posts list -->
           </div>
       </section><!-- /featured Posts Section -->
+
+    <!-- Recent Posts Section -->
+    <section id="recent-posts" class="recent-posts section">
+        <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+              <h2>Latest Posts</h2>
+              <p>Stay up-to-date with our latest posts, where we uncover the newest discoveries, practical advice, and timely insights on beauty, health, and natural well-being.</p>
+          </div><!-- End Section Title -->
+          <div class="container">
+              <div class="row gy-4">
+                  {% for p in latest %}
+                  <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                      <article>
+                          <div class="post-img">
+                              <img src="{{ p.cover.url }}" alt="" class="img-fluid">
+                          </div>
+                          <p class="post-category">{{ p.category }}</p>
+                          <h2 class="title">
+                              <a href="{% url 'core:blog-detail' category_slug=p.category.slug slug=p.slug %}">{{ p.heading }}</a>
+                          </h2>
+                          <div class="d-flex align-items-center">
+                              <img src="{{ p.author.image.url }}" alt="" class="img-fluid post-author-img flex-shrink-0">
+                              <div class="post-meta">
+                                  <p class="post-author">{{ p.author }}</p>
+                                  <p class="post-date">
+                                      <time datetime="2022-01-01">{{ p.updated }}</time>
+                                  </p>
+                              </div>
+                          </div>
+                      </article>
+                  </div><!-- End post list item -->
+                  {% endfor %}
+              </div><!-- End recent posts list -->
+          </div>
+      </section><!-- /Recent Posts Section -->
 
   </main>
 

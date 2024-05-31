@@ -61,7 +61,7 @@
                                 </div>
                                 <p class="post-category">{{ post.category }}</p>
                                 <h2 class="title">
-                                    <a href="{% url 'core:blog-detail' post.slug %}">{{ post.heading }}</a>
+                                    <a href="{% url 'core:blog-detail' category_slug=post.category.slug slug=post.slug %}">{{ post.heading }}</a>
                                 </h2>
                                 <div class="d-flex align-items-center">
                                         <img src="{{ post.author.image.url }}" alt="" class="img-fluid post-author-img flex-shrink-0">
