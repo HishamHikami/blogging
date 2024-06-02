@@ -14,9 +14,9 @@ sitemaps = {
 urlpatterns = [
     path("", index, name='index'),
     path("blog/", blog_list, name='blog'),
-    path("blog/category/<category_slug>/<slug>/", blog_detail, name='blog-detail'),
+    path("blog/category/<str:category_slug>/", category_list, name='categories'),
+    path("blog/category/<str:category_slug>/<str:slug>/", blog_detail, name='blog-detail'),
     path("blog/tag/<slug:slug>/", TagDetailView.as_view(), name='tags'),
-    path("blog/category/<category_slug>/", category_list, name='categories'),
     path("search/", search_view, name="search"),
     path(
         "blog-sitemap.xml",

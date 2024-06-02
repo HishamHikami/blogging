@@ -24,6 +24,8 @@ def blog_images(instance, filename):
     return 'author_{0}/{1}'.format(instance.author.id, filename)
 
 class CustomTag(TagBase):
+    meta_title = models.CharField(max_length=60, null=True, blank=True)
+    meta_description = models.CharField(max_length=160, null=True, blank=True)
     def get_absolute_url(self):
         return f"/blog/tag/{self.slug}/"
     
@@ -35,6 +37,8 @@ class Category(models.Model):
     slug = models.SlugField(blank=True, null=True, unique=True, max_length=80)
     image = models.ImageField(upload_to="category", default="category.jpg")
     date = models.DateTimeField(auto_now_add=True)
+    meta_title = models.CharField(max_length=60, null=True, blank=True)
+    meta_description = models.CharField(max_length=160, null=True, blank=True)
 
     def clean_heading(self):
         self.heading = self.title.strip()  # Remove leading/trailing spaces
@@ -107,6 +111,14 @@ class Post(models.Model):
     
     def __str__(self):
         return self.heading
+    
+class FAQ(models.Model):
+    blog_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='faqs')
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
     
 class GetQuote(models.Model):
     email = models.CharField(max_length=40, default="john@email.com")
