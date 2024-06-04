@@ -8,7 +8,6 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta name="description" content="{{ meta_description }}">
-  <meta name="keywords" content="{{ meta_keywords }}">
   <title>{{ meta_title }}</title>
   <link rel="canonical" href="{{ canonical_url }}">
 
@@ -30,16 +29,6 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
-
-  <meta name="description" content="{% if request.path == '/' %}
-    Discover expert tips and inspiration for holistic health, natural beauty, and overall well-being. Embrace a balanced lifestyle with our guides on fitness, skincare, nutrition, and more.
-    {% elif 'blog' in request.path %}
-    Explore our blog for the latest articles on holistic health, natural beauty, and overall wellness. Find expert advice, DIY tips, and inspiration to enhance your well-being naturally.
-    {% elif 'blog-detail' in request.path %}
-    {{ post.meta_description }}
-    {% endif %}">
-  <link rel="canonical" href="{% if request.path == '/' %}https://auxnid.com{% elif 'blog' in request.path %}https://auxnid.com/blog{% elif 'blog' in request.path %}https://hishamhikami.com/blog/{{ article.slug }}/{% endif %}">
-  <meta name="robots" content="index, follow">
 
 </head>
 

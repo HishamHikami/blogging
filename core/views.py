@@ -22,6 +22,7 @@ def index(request):
 def blog_detail(request, category_slug, slug):
     post = get_object_or_404(Post, category__slug=category_slug, slug=slug)
     posts = Post.objects.filter(status="published")
+    faqs = post.faqs.all()
     
     category = None
     if post.category:
@@ -34,6 +35,7 @@ def blog_detail(request, category_slug, slug):
         "post": post,
         "posts": posts,
         "category": category,
+        "faqs": faqs,
     }
     
     return render(request, 'core/blog-detail.html', context)

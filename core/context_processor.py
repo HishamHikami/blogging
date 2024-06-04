@@ -1,4 +1,5 @@
 from .models import Category, Author, Post, CustomTag
+from django.http import HttpRequest
 from django.urls import reverse, resolve, NoReverseMatch
 from .models import Post, Category, CustomTag
 
@@ -17,12 +18,12 @@ def default(request):
 
 STATIC_METADATA = {
     'index': {
-        'title': 'Holistic Health & Beauty Blog | Natural Well-Being Tips & Inspiration',
-        'description': 'Discover expert tips and inspiration for holistic health, natural beauty, and overall well-being. Embrace a balanced lifestyle with our guides on fitness, skincare, nutrition, and more.',
+        'title': 'Home',
+        'description': 'Welcome to the homepage',
     },
     'blog': {
-        'title': 'Health, Beauty & Wellness Blog | Expert Tips & Natural Insights',
-        'description': 'Explore our blog for the latest articles on holistic health, natural beauty, and overall wellness. Find expert advice, DIY tips, and inspiration to enhance your well-being naturally.',
+        'title': 'Blog',
+        'description': 'Read our latest blog posts',
     },
     'search': {
         'title': 'Search Results',
@@ -53,20 +54,41 @@ def metadata(request):
             tag_slug = resolve(request.path_info).kwargs.get('slug')
             tag = CustomTag.objects.get(slug=tag_slug)
             metadata = {
-                'title': tag.meta_title,
-                'description': tag.meta_description,
+                'title': tag.name,
             }
         else:
             metadata = STATIC_METADATA.get(current_url_name, {})
 
-        canonical_url = request.build_absolute_uri(reverse(current_url_name, kwargs=resolve(request.path_info).kwargs))
-
-    except (Post.DoesNotExist, Category.DoesNotExist, CustomTag.DoesNotExist, NoReverseMatch):
+    except (Post.DoesNotExist, Category.DoesNotExist, CustomTag.DoesNotExist):
         metadata = STATIC_METADATA.get(current_url_name, {})
-        canonical_url = request.build_absolute_uri(request.path_info)
 
     return {
         'meta_title': metadata.get('title', 'Default Title'),
         'meta_description': metadata.get('description', 'Default Description'),
-        'canonical_url': canonical_url,
+    }
+
+def canonical_url(request: HttpRequest) -> str:
+    try:
+        # Get the resolved URL name
+        current_url_name = resolve(request.path_info).url_name
+
+        # Generate the canonical URL based on the resolved URL name
+        if current_url_name == 'blog-detail':
+            slug = resolve(request.path_info).kwargs.get('slug')
+            canonical_url = reverse('blog-detail', kwargs={'slug': slug})
+        elif current_url_name == 'categories':
+            category_slug = resolve(request.path_info).kwargs.get('category_slug')
+            canonical_url = reverse('categories', kwargs={'category_slug': category_slug})
+        elif current_url_name == 'tags':
+            tag_slug = resolve(request.path_info).kwargs.get('slug')
+            canonical_url = reverse('tags', kwargs={'slug': tag_slug})
+        elif current_url_name in ['index', 'search', 'blog']:  # Static pages
+            canonical_url = reverse(current_url_name)
+        else:
+            canonical_url = request.path_info  # Default to the current path as canonical
+    except NoReverseMatch:
+        canonical_url = request.path_info  # Fallback to the current path if reverse fails
+
+    return {
+        'canonical_url': request.build_absolute_uri(canonical_url),
     }
