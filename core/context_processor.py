@@ -4,9 +4,9 @@ from django.urls import reverse, resolve, NoReverseMatch
 from .models import Post, Category, CustomTag
 
 def default(request):
-    categories = Category.objects.all()
+    categories = Category.objects.all()[:5]
     authors = Author.objects.all()
-    tags = CustomTag.objects.all()
+    tags = CustomTag.objects.all()[:10]
     latest_posts = Post.objects.filter(status="published").order_by("-date")
 
     return {

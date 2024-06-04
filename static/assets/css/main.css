@@ -1504,6 +1504,53 @@ section,
   margin-top: 15px;
 }
 
+.sidebar {
+  position: relative;
+}
+.sticky {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 100px; /* Adjust based on your header height */
+}
+
+.toggle-button {
+    display: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 767px) {
+    .toggle-button {
+      display: block;
+    }
+    .widgets-container {
+      display: none;
+      background-color: white;
+      padding: 10px;
+      position: absolute;
+      top: 50px; /* Adjust based on your layout */
+      right: 0;
+      width: 80%;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .widgets-container.open {
+      display: block;
+    }
+  }
+  
+  .sidebar {
+    position: relative;
+  }
+  
+  .sticky {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100px; /* Adjust based on your header height */
+  }
 
 .footer_form .sign-up-form {
   margin-top: 20px;

@@ -118,6 +118,26 @@
         <div class="col-lg-4 sidebar">
 
           <div class="widgets-container">
+            
+            <!-- Recent Posts Widget -->
+            <div class="recent-posts-widget widget-item">
+
+              <h3 class="widget-title">Recent Posts</h3>
+
+              {% for p in posts %}
+              <div class="post-item">
+                <img src="{{ p.cover.url }}" alt="" class="flex-shrink-0">
+                <div>
+                  <h4><a href="{% url 'core:blog-detail' category_slug=p.category.slug slug=p.slug %}">{{ p.heading }}</a></h4>
+                  <time datetime="2020-01-01">{{ p.date | date }}</time>
+                </div>
+              </div><!-- End recent post item-->
+              {% endfor %}
+
+            </div><!--/Recent Posts Widget -->
+          </div>
+
+          <div class="widgets-container sticky">
 
             <!-- Search Widget -->
             <div class="search-widget widget-item">
@@ -141,23 +161,6 @@
               </ul>
 
             </div><!--/Categories Widget -->
-
-            <!-- Recent Posts Widget -->
-            <div class="recent-posts-widget widget-item">
-
-              <h3 class="widget-title">Recent Posts</h3>
-
-              {% for p in posts %}
-              <div class="post-item">
-                <img src="{{ p.cover.url }}" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a href="{% url 'core:blog-detail' category_slug=p.category.slug slug=p.slug %}">{{ p.heading }}</a></h4>
-                  <time datetime="2020-01-01">{{ p.date | date }}</time>
-                </div>
-              </div><!-- End recent post item-->
-              {% endfor %}
-
-            </div><!--/Recent Posts Widget -->
 
             <!-- Tags Widget -->
             <div class="tags-widget widget-item">
