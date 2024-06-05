@@ -69,23 +69,29 @@ def metadata(request):
 
 def canonical_url(request: HttpRequest) -> str:
     try:
-        # Get the resolved URL name
-        current_url_name = resolve(request.path_info).url_name
+        # Get the resolved URL name and its kwargs only once
+        resolver_match = resolve(request.path_info)
+        current_url_name = resolver_match.url_name
+        kwargs = resolver_match.kwargs
 
-        # Generate the canonical URL based on the resolved URL name
-        if current_url_name == 'blog-detail':
-            slug = resolve(request.path_info).kwargs.get('slug')
-            canonical_url = reverse('blog-detail', kwargs={'slug': slug})
-        elif current_url_name == 'categories':
-            category_slug = resolve(request.path_info).kwargs.get('category_slug')
-            canonical_url = reverse('categories', kwargs={'category_slug': category_slug})
-        elif current_url_name == 'tags':
-            tag_slug = resolve(request.path_info).kwargs.get('slug')
-            canonical_url = reverse('tags', kwargs={'slug': tag_slug})
-        elif current_url_name in ['index', 'search', 'blog']:  # Static pages
-            canonical_url = reverse(current_url_name)
+        # Check if the post status is published
+        if Post.objects.filter(status="published").exists():  # Ensure to use your specific logic here
+            # Generate the canonical URL based on the resolved URL name
+            if current_url_name == 'blog-detail':
+                slug = kwargs.get('slug')
+                canonical_url = reverse('blog-detail', kwargs={'slug': slug})
+            elif current_url_name == 'categories':
+                category_slug = kwargs.get('category_slug')
+                canonical_url = reverse('categories', kwargs={'category_slug': category_slug})
+            elif current_url_name == 'tags':
+                tag_slug = kwargs.get('slug')
+                canonical_url = reverse('tags', kwargs={'slug': tag_slug})
+            elif current_url_name in ['index', 'search', 'blog']:  # Static pages
+                canonical_url = reverse(current_url_name)
+            else:
+                canonical_url = request.path_info  # Default to the current path as canonical
         else:
-            canonical_url = request.path_info  # Default to the current path as canonical
+            canonical_url = request.path_info  # Default to the current path if post is not published
     except NoReverseMatch:
         canonical_url = request.path_info  # Fallback to the current path if reverse fails
 
