@@ -10,7 +10,7 @@ import logging
 
 def index(request):
     posts = Post.objects.filter(status="published").order_by("-date")
-    f_posts = Post.objects.filter(featured="yes").order_by("-date")
+    f_posts = Post.objects.filter(status="published", featured="yes").order_by("-date")
 
     context = {
         "posts": posts,
