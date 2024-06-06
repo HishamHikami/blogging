@@ -7,3 +7,4 @@ staticfiles
 *.pyc
 uploads/
 blogging.code-workspace
+gunicorn_config.py
