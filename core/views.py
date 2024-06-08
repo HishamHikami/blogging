@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from .models import Post, Contact, GetQuote, Category, CustomTag
 from django.views.generic import DetailView
@@ -136,3 +136,17 @@ def ajax_get_quote(request):
     }
 
     return JsonResponse({"data":data})
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "User-agent: Googlebot",
+        "Disallow: /admin/",
+        "Disallow: /nogooglebot/",
+        "",
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "Sitemap: https://auxnid.com/blog-sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
