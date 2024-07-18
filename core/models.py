@@ -115,7 +115,7 @@ class Post(models.Model):
 class FAQ(models.Model):
     blog_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='faqs')
     question = models.CharField(max_length=200)
-    answer = models.TextField()
+    answer = CKEditor5Field(config_name='extends', null=True, blank=True)
 
     def __str__(self):
         return self.question

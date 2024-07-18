@@ -60,7 +60,7 @@
                       <div class="faq-item">
                         <h3><span>{{ faq.question }}</span></h3>
                         <div class="faq-content">
-                          <p>{{ faq.answer }}</p>
+                          <p>{{ faq.answer | safe }}</p>
                         </div>
                         <i class="faq-toggle bi bi-chevron-right"></i>
                       </div><!-- End Faq item-->
