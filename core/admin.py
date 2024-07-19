@@ -9,7 +9,7 @@ class FAQInline(admin.StackedInline):  # or admin.TabularInline
     extra = 1  # Number of empty forms to display
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['heading', 'slug', 'status', 'category', 'author']
+    list_display = ['heading', 'slug', 'status', 'featured', 'category', 'author']
     readonly_fields = ['slug']
     inlines = [FAQInline]
 
