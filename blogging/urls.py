@@ -19,12 +19,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from core.views import robots_txt
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls")),
     path('robots.txt', robots_txt),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+
+    # Redirects (temp)
+    path('/blog/category/beauty-insights/vlcc-facial-kit-for-men-top-5-alternatives-updated/', RedirectView.as_view(url='/blog/category/beauty-insights/top-5-vlcc-facial-kit-alternatives-in-2024-for-men/', permanent=True)),
 ]
 
 if settings.DEBUG:
