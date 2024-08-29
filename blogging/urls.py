@@ -28,7 +28,7 @@ urlpatterns = [
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 
     # Redirects (temp)
-    path('/blog/category/beauty-insights/vlcc-facial-kit-for-men-top-5-alternatives-updated/', RedirectView.as_view(url='/blog/category/beauty-insights/top-5-vlcc-facial-kit-alternatives-in-2024-for-men/', permanent=True)),
+    path('blog/category/beauty-insights/vlcc-facial-kit-for-men-top-5-alternatives-updated/', RedirectView.as_view(url='/blog/category/beauty-insights/top-5-vlcc-facial-kit-alternatives-in-2024-for-men/', permanent=True)),
 ]
 
 if settings.DEBUG:
